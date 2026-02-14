@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Know Something About Us 💕</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 800px;
+    width: 100%;
+    padding: 2rem;
+}
+
+.question-card {
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 0 20px rgba(255,105,180,0.3);
+    backdrop-filter: blur(10px);
+}
+
+.question {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.option {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    padding: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.option:hover {
+    background: rgba(255,105,180,0.2);
+}
+
+.option.correct {
+    background: rgba(0,255,127,0.25);
+    border: 1px solid #00ff9d;
+}
+
+.option.correct::after {
+    content: " ✔";
+    color: #00ff9d;
+    font-weight: bold;
+}
+
+.option.wrong {
+    background: rgba(255,69,69,0.25);
+    border: 1px solid #ff4d4d;
+}
+
+.option.wrong::after {
+    content: " ✖";
+    color: #ff4d4d;
+    font-weight: bold;
+}
+
+.option.disabled {
+    pointer-events: none;
+    opacity: 0.75;
+}
+
+.end-section {
+    display: none;
+    text-align: center;
+}
+
+.gif {
+    width: 260px;
+    border-radius: 15px;
+    margin: 2rem 0;
+}
+
+.continue-button {
+    background: linear-gradient(45deg,#ff69b4,#ff1493);
+    border: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.4rem;
+    color: #fff;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 0 25px rgba(255,105,180,0.6);
+    transition: 0.3s;
+}
+
+.continue-button:hover {
+    transform: scale(1.1);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="quizContainer">
+
+<!-- Q1 -->
+<div class="question-card">
+<div class="question">1. Where was our first date?</div>
+<div class="options">
+<label class="option"><input type="radio" name="q1" value="A"> Mall</label>
+<label class="option"><input type="radio" name="q1" value="B"> Cafe</label>
+<label class="option"><input type="radio" name="q1" value="C"> Beach</label>
+</div>
+</div>
+
+<!-- Q2 -->
+<div class="question-card">
+<div class="question">2. When was our first proposal?</div>
+<div class="options">
+<label class="option"><input type="radio" name="q2" value="A"> April 10</label>
+<label class="option"><input type="radio" name="q2" value="B"> April 5</label>
+<label class="option"><input type="radio" name="q2" value="C"> March 23</label>
+<label class="option"><input type="radio" name="q2" value="D"> March 30</label>
+</div>
+</div>
+
+<!-- Q3 -->
+<div class="question-card">
+<div class="question">3. Who fell in love first?</div>
+<div class="options">
+<label class="option"><input type="radio" name="q3" value="A"> You</label>
+<label class="option"><input type="radio" name="q3" value="B"> Me</label>
+<label class="option"><input type="radio" name="q3" value="C"> Both at the same time</label>
+</div>
+</div>
+
+<!-- Q4 -->
+<div class="question-card">
+<div class="question">4. What do you like most about me?</div>
+<div class="options">
+<label class="option"><input type="radio" name="q4" value="A"> Look</label>
+<label class="option"><input type="radio" name="q4" value="B"> Smile</label>
+<label class="option"><input type="radio" name="q4" value="C"> Care and Support</label>
+<label class="option"><input type="radio" name="q4" value="D"> Everything 💕</label>
+</div>
+</div>
+
+<!-- Q5 -->
+<div class="question-card">
+<div class="question">5. What is my favorite memory of us?</div>
+<div class="options">
+<label class="option"><input type="radio" name="q5" value="A"> First Date</label>
+<label class="option"><input type="radio" name="q5" value="B"> Official Pennu Kanalu</label>
+<label class="option"><input type="radio" name="q5" value="C"> Engagement</label>
+</div>
+</div>
+
+</div>
+
+<!-- END -->
+<div class="end-section" id="endSection">
+<img src="https://media.giphy.com/media/l2QDM9Jnim1YVILXa/giphy.gif" class="gif">
+<br>
+<button class="continue-button" onclick="goNext()">Continue 💕</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+const correctAnswers = {
+    q1: "B",
+    q2: "A",
+    q3: "A",
+    q4: "D",
+    q5: "A"
+};
+
+const fired = {};
+
+document.querySelectorAll("input[type='radio']").forEach(radio => {
+    radio.addEventListener("change", function () {
+        const q = this.name;
+        if (fired[q]) return;
+        fired[q] = true;
+
+        document.querySelectorAll(`input[name="${q}"]`).forEach(opt => {
+            const label = opt.parentElement;
+            label.classList.add("disabled");
+
+            if (opt.value === correctAnswers[q]) {
+                label.classList.add("correct");
+            }
+            if (opt.checked && opt.value !== correctAnswers[q]) {
+                label.classList.add("wrong");
+            }
+        });
+
+        confetti({
+            particleCount: 80,
+            spread: 80,
+            shapes: ["heart"],
+            colors: ["#ff69b4","#ff1493","#fff"]
+        });
+
+        const allAnswered = Object.keys(correctAnswers).every(
+            key => fired[key]
+        );
+
+        if (allAnswered) {
+            setTimeout(() => {
+                document.getElementById("quizContainer").style.display = "none";
+                document.getElementById("endSection").style.display = "block";
+            }, 1200);
+        }
+    });
+});
+
+function goNext() {
+    window.location.href = "game.html";
+}
+</script>
+
+</body>
+</html>

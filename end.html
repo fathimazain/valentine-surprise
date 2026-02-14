@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All My Love 💖</title>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* GIF and image container */
+.media-box {
+    max-width: 300px;
+    max-height: 300px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(255,105,180,0.6);
+}
+
+/* Ending message */
+h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.2rem;
+    color: #ff69b4;
+    margin-bottom: 15px;
+}
+
+p {
+    font-size: 1rem;
+    color: #ffb6c1;
+    max-width: 400px;
+}
+
+/* Floating hearts */
+.heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 24px;
+    animation: floatUp 4s linear forwards;
+    color: pink;
+    z-index: 999;
+}
+
+@keyframes floatUp {
+    from { transform: translateY(0) scale(1); opacity: 1; }
+    to { transform: translateY(-100vh) scale(1.6); opacity: 0; }
+}
+</style>
+</head>
+<body>
+
+<h1>All My Love 💖</h1>
+
+<!-- GIF -->
+<div class="media-box">
+    <img src="final.gif" alt="Love GIF" style="width:100%; border-radius:15px;">
+</div>
+
+<!-- Static image -->
+<div class="media-box">
+    <img src="love you.jpg" alt="Love Image" style="width:100%; border-radius:15px;">
+</div>
+
+<p>Thank you for sharing these beautiful memories with me. 💕</p>
+
+<script>
+// Floating hearts animation
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (3 + Math.random()*2) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 4000);
+}
+
+// Generate multiple hearts over time
+for (let i = 0; i < 25; i++) {
+    setTimeout(createHeart, i * 300);
+}
+</script>
+
+</body>
+</html>
+

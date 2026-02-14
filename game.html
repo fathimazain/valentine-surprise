@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drag Puzzle 🧩💖</title>
+<style>
+body {
+    background: black;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+h2 { 
+    font-size: 2rem; 
+    margin-bottom: 20px; 
+    color: #ff69b4; 
+}
+
+.puzzle-container {
+    width: 300px;
+    height: 300px;
+    position: relative;
+    border: 2px solid #ff69b4;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.piece {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    background-image: url('puzzle.jpg');
+    background-size: 300px 300px;
+    border: 1px solid #fff;
+    cursor: grab;
+    transition: 0.1s;
+}
+
+.piece.dragging { opacity: 0.7; cursor: grabbing; }
+
+/* WIN overlay */
+.win {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    font-size: 2rem;
+    z-index: 5;
+    text-align: center;
+}
+
+.win.show { display: flex; }
+
+.heart-gif {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 20px;
+}
+
+.letter-btn {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(45deg,#ff69b4,#ff1493);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255,105,180,0.5);
+}
+</style>
+</head>
+<body>
+
+<h2>Drag all pieces 💖</h2>
+<div class="puzzle-container" id="puzzle"></div>
+
+<div class="win" id="win">
+    <img src="hearts.gif" class="heart-gif" alt="Hearts GIF">
+    <div>You did it! 💕</div>
+    <button class="letter-btn" id="openLetter">Open My Heart 💌</button>
+</div>
+
+<audio id="bgMusic" loop autoplay>
+    <source src="romantic.mp3" type="audio/mpeg">
+</audio>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+const puzzle = document.getElementById('puzzle');
+const win = document.getElementById('win');
+const music = document.getElementById('bgMusic');
+const openLetter = document.getElementById('openLetter');
+
+const size = 3;
+const tileSize = 100;
+let pieces = [];
+
+// Initialize puzzle
+function initPuzzle() {
+    puzzle.innerHTML = '';
+    pieces = [];
+    for (let y = 0; y < size; y++) {
+        for (let x = 0; x < size; x++) {
+            const piece = document.createElement('div');
+            piece.className = 'piece';
+            piece.style.left = Math.random() * 200 + 'px';
+            piece.style.top = Math.random() * 200 + 'px';
+            piece.dataset.correctX = x * tileSize;
+            piece.dataset.correctY = y * tileSize;
+            piece.style.backgroundPosition = `-${x * tileSize}px -${y * tileSize}px`;
+            piece.addEventListener('mousedown', startDrag);
+            piece.addEventListener('touchstart', startDrag, { passive: false });
+            pieces.push(piece);
+            puzzle.appendChild(piece);
+        }
+    }
+}
+
+// Drag logic
+let currentPiece = null;
+let offsetX = 0, offsetY = 0;
+
+function startDrag(e) {
+    e.preventDefault();
+    const isTouch = e.type === 'touchstart';
+    currentPiece = e.target;
+    currentPiece.classList.add('dragging');
+    const clientX = isTouch ? e.touches[0].clientX : e.clientX;
+    const clientY = isTouch ? e.touches[0].clientY : e.clientY;
+    const rect = currentPiece.getBoundingClientRect();
+    offsetX = clientX - rect.left;
+    offsetY = clientY - rect.top;
+    if (isTouch) {
+        document.addEventListener('touchmove', dragMove, { passive: false });
+        document.addEventListener('touchend', endDrag);
+    } else {
+        document.addEventListener('mousemove', dragMove);
+        document.addEventListener('mouseup', endDrag);
+    }
+}
+
+function dragMove(e) {
+    if (!currentPiece) return;
+    e.preventDefault();
+    const isTouch = e.type === 'touchmove';
+    const clientX = isTouch ? e.touches[0].clientX : e.clientX;
+    const clientY = isTouch ? e.touches[0].clientY : e.clientY;
+    const rect = puzzle.getBoundingClientRect();
+    let x = clientX - rect.left - offsetX;
+    let y = clientY - rect.top - offsetY;
+    x = Math.max(0, Math.min(200, x));
+    y = Math.max(0, Math.min(200, y));
+    currentPiece.style.left = x + 'px';
+    currentPiece.style.top = y + 'px';
+}
+
+function endDrag() {
+    if (!currentPiece) return;
+    currentPiece.classList.remove('dragging');
+    const correctX = parseInt(currentPiece.dataset.correctX);
+    const correctY = parseInt(currentPiece.dataset.correctY);
+    let x = parseInt(currentPiece.style.left);
+    let y = parseInt(currentPiece.style.top);
+    if (Math.abs(x - correctX) < 15 && Math.abs(y - correctY) < 15) {
+        currentPiece.style.left = correctX + 'px';
+        currentPiece.style.top = correctY + 'px';
+    }
+    checkWin();
+    document.removeEventListener('mousemove', dragMove);
+    document.removeEventListener('mouseup', endDrag);
+    document.removeEventListener('touchmove', dragMove);
+    document.removeEventListener('touchend', endDrag);
+    currentPiece = null;
+}
+
+function checkWin() {
+    const won = pieces.every(p => {
+        const x = parseInt(p.style.left);
+        const y = parseInt(p.style.top);
+        return x === parseInt(p.dataset.correctX) && y === parseInt(p.dataset.correctY);
+    });
+    if (won) {
+        win.classList.add('show');
+        confetti({ particleCount: 150, spread: 80, colors: ["#ff69b4","#ff1493","#87ceeb"], shapes: ["heart"] });
+        music.play();
+    }
+}
+
+// Go to letter page
+openLetter.addEventListener('click', () => {
+    window.location.href = "letter.html";
+});
+
+initPuzzle();
+</script>
+
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forever Us 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* FLOATING HEARTS */
+.heart {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: float 10s linear infinite;
+    color: #ff69b4;
+    opacity: 0.7;
+    text-shadow: 0 0 15px #ff69b4;
+}
+@keyframes float {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    20% { opacity: 0.7; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+/* MAIN CONTENT */
+.container {
+    text-align: center;
+    z-index: 5;
+}
+
+.names {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+.names.heartbeat { animation: heartbeat 1s ease-in-out; }
+@keyframes heartbeat { 0%{scale:1}25%{scale:1.15}50%{scale:1.25}75%{scale:1.15}100%{scale:1} }
+
+.message { font-size:1.2rem; max-width:600px; margin:auto; line-height:1.7; opacity:0; animation: fadeIn 3s ease forwards; animation-delay:2s; }
+.question { font-family:'Dancing Script',cursive; font-size:2.3rem; margin-top:2rem; opacity:0; animation: fadeIn 3s ease forwards; animation-delay:4s; }
+button { margin-top:2rem; background:linear-gradient(45deg,#ff69b4,#ff1493); border:none; padding:1rem 2.8rem; font-size:1.4rem; border-radius:50px; color:white; cursor:pointer; box-shadow:0 0 25px rgba(255,105,180,0.6); opacity:0; animation: fadeIn 3s ease forwards; animation-delay:6s; }
+button:hover { transform:scale(1.15); box-shadow:0 0 40px rgba(255,105,180,0.9); }
+@keyframes fadeIn { to{opacity:1;} }
+</style>
+</head>
+<body>
+
+<!-- Floating hearts script -->
+<script>
+for(let i=0;i<25;i++){
+    const heart = document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="💖";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.animationDuration=(6+Math.random()*6)+"s";
+    heart.style.fontSize=(1+Math.random()*2)+"rem";
+    document.body.appendChild(heart);
+}
+</script>
+
+<div class="container">
+    <div class="names" id="names">Fathima ❤️ Shamon</div>
+    <div class="message">
+        From the first smile to every little fight,<br>
+        from silly laughs to silent support —<br>
+        every version of us means everything to me.<br><br>
+        No matter where life takes us,<br>
+        my heart will always find its way back to you 💕
+    </div>
+    <div class="question">Will you be my forever Valentine? 💍💖</div>
+    <button onclick="finalYes()">Yes, Always 💞</button>
+</div>
+
+<audio id="music" loop>
+    <source src="romantic mp3.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Confetti library -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+const names = document.getElementById("names");
+const music = document.getElementById("music");
+
+// Heartbeat on name click
+names.onclick = () => {
+    names.classList.add("heartbeat");
+    setTimeout(()=>names.classList.remove("heartbeat"),1000);
+};
+
+// Play music on first click
+document.body.addEventListener("click", ()=>{
+    music.volume = 0.15;
+    music.play().catch(()=>{});
+},{once:true});
+
+// Final Yes button
+function finalYes(){
+    music.pause();
+    const container = document.querySelector(".container");
+    container.innerHTML = "";
+
+    // Show GIF
+    const gif = document.createElement("img");
+    gif.src = "celebration.gif"; // Replace with your GIF
+    gif.style.width = "300px";
+    gif.style.height = "auto";
+    gif.style.borderRadius = "15px";
+    gif.style.boxShadow = "0 0 30px rgba(255,105,180,0.7)";
+    container.appendChild(gif);
+
+    // Message
+    const msg = document.createElement("div");
+    msg.textContent = "Forever begins now 💕";
+    msg.style.fontFamily = "'Dancing Script', cursive";
+    msg.style.fontSize = "1.8rem";
+    msg.style.color = "#ff69b4";
+    msg.style.marginTop = "20px";
+    container.appendChild(msg);
+
+    // Confetti
+    confetti({particleCount:150,spread:80,colors:["#ff69b4","#ff1493","#87ceeb"],shapes:["heart"]});
+
+    // Redirect to end.html after 5 seconds
+    setTimeout(()=>{ window.location.href="end.html"; },5000);
+}
+</script>
+</body>
+</html>
+

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moments We Treasure ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+    text-align: center;
+}
+
+/* LOCK SCREEN */
+.lock-box {
+    text-align: center;
+}
+
+.lock-icon {
+    font-size: 5rem;
+    color: #ff69b4;
+    text-shadow: 0 0 20px #ff69b4;
+}
+
+.lock-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2rem;
+    margin-top: 1rem;
+}
+
+.clue {
+    font-style: italic;
+    color: #ffb6c1;
+    margin: 1rem 0;
+}
+
+input {
+    padding: 0.8rem;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    text-align: center;
+    font-size: 1.2rem;
+    width: 220px;
+}
+
+.unlock-btn {
+    margin-top: 1rem;
+    padding: 0.8rem 2.5rem;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(45deg,#ff69b4,#ff1493);
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 0 25px rgba(255,105,180,0.6);
+}
+
+.error {
+    color: #ff6b6b;
+    margin-top: 0.5rem;
+}
+
+/* FLOATING HEARTS */
+.heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 24px;
+    animation: floatUp 4s linear forwards;
+    color: pink;
+    z-index: 999;
+}
+
+@keyframes floatUp {
+    from { transform: translateY(0) scale(1); opacity: 1; }
+    to { transform: translateY(-100vh) scale(1.6); opacity: 0; }
+}
+
+/* TIMELINE */
+.timeline {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+    margin-top: 2rem;
+}
+
+.timeline-item {
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 1rem;
+    margin: 0.8rem 0;
+    width: 90%;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(255,105,180,0.3);
+}
+
+.timeline-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+}
+
+/* MESSAGE OVERLAY */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.4s;
+}
+
+.overlay.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+.overlay-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8rem;
+    background: rgba(255,255,255,0.1);
+    padding: 2rem;
+    border-radius: 15px;
+    max-width: 80%;
+}
+
+/* CONTINUE BUTTON */
+#nextBtn {
+    display: none;
+    margin-top: 2rem;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOCK SCREEN -->
+<div class="lock-box" id="lockBox">
+    <div class="lock-icon">🔒</div>
+    <div class="lock-text">Only You can open this 💙</div>
+    <div class="clue">Clue: “We knew each other deeply on that day”</div>
+
+    <input type="tel" id="passkey" placeholder="DDMMYYYY">
+    <br>
+    <button class="unlock-btn" onclick="unlock()">Unlock ❤️</button>
+    <div class="error" id="error"></div>
+</div>
+
+<!-- TIMELINE -->
+<div class="timeline" id="timeline">
+    <div class="timeline-item" data-msg="That day changed everything for me 🌱">
+        <div class="timeline-text">1. The day we first met 🌱</div>
+    </div>
+    <div class="timeline-item" data-msg="Talking to you felt so natural 💬">
+        <div class="timeline-text">2. Our first real conversation 💬</div>
+    </div>
+    <div class="timeline-item" data-msg="Your laughter became my favorite sound 😄">
+        <div class="timeline-text">3. The laughs we shared 😄</div>
+    </div>
+    <div class="timeline-item" data-msg="I felt safe, calm, and loved 🥹">
+        <div class="timeline-text">4. Moments I felt close to you 🥹</div>
+    </div>
+    <div class="timeline-item" data-msg="Every day since then, it’s only been you 💕">
+        <div class="timeline-text">5. Us, now 💕</div>
+    </div>
+
+    <button class="unlock-btn" id="nextBtn" onclick="goNext()">See Our Memories 💝</button>
+</div>
+
+<!-- MESSAGE OVERLAY -->
+<div class="overlay" id="overlay">
+    <div class="overlay-text" id="overlayText"></div>
+</div>
+
+<script>
+const CORRECT_KEY = "31102025"; // new format without slashes
+
+/* Create floating hearts */
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (3 + Math.random() * 2) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 5000);
+}
+
+/* Unlock logic */
+function unlock() {
+    const input = document.getElementById("passkey").value.trim();
+    const error = document.getElementById("error");
+
+    if (input === CORRECT_KEY) {
+        error.textContent = "";
+
+        for (let i = 0; i < 30; i++) {
+            setTimeout(createHeart, i * 120);
+        }
+
+        setTimeout(() => {
+            document.getElementById("lockBox").style.display = "none";
+            document.getElementById("timeline").style.display = "flex";
+        }, 2200);
+
+        setTimeout(() => {
+            document.getElementById("nextBtn").style.display = "inline-block";
+        }, 4000);
+    } else {
+        error.textContent = "Not this one… but I know you’ll remember 💙";
+    }
+}
+
+/* Timeline messages */
+const items = document.querySelectorAll(".timeline-item");
+const overlay = document.getElementById("overlay");
+const overlayText = document.getElementById("overlayText");
+
+items.forEach(item => {
+    item.addEventListener("click", () => {
+        overlayText.textContent = item.dataset.msg;
+        overlay.classList.add("show");
+        setTimeout(() => overlay.classList.remove("show"), 4000);
+    });
+});
+
+/* Continue */
+function goNext() {
+    window.location.href = "photos.html"; // 17 memories
+}
+</script>
+
+</body>
+</html>
+
+

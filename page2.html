@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Proposal</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: float 8s linear infinite;
+            opacity: 0.6;
+            color: #ff69b4;
+            text-shadow: 0 0 10px #ff69b4;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        .content {
+            text-align: center;
+            z-index: 2;
+            transition: opacity 0.6s ease;
+        }
+
+        .fade-out {
+            opacity: 0;
+        }
+
+        .question {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .button {
+            padding: 1rem 2rem;
+            font-size: 1.5rem;
+            font-family: 'Poppins', sans-serif;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .yes-button {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+        }
+
+        .yes-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 35px rgba(255, 105, 180, 0.9);
+        }
+
+        .no-button {
+            background: linear-gradient(45deg, #87ceeb, #4682b4);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(135, 206, 235, 0.6);
+        }
+
+        .message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            margin-top: 2rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Hearts -->
+    <div class="heart" style="left:10%;animation-delay:0s;">❤️</div>
+    <div class="heart" style="left:20%;animation-delay:1s;">💖</div>
+    <div class="heart" style="left:30%;animation-delay:2s;">❤️</div>
+    <div class="heart" style="left:40%;animation-delay:3s;">💖</div>
+    <div class="heart" style="left:50%;animation-delay:4s;">❤️</div>
+    <div class="heart" style="left:60%;animation-delay:5s;">💖</div>
+    <div class="heart" style="left:70%;animation-delay:6s;">❤️</div>
+    <div class="heart" style="left:80%;animation-delay:7s;">💖</div>
+    <div class="heart" style="left:90%;animation-delay:8s;">❤️</div>
+
+    <!-- Main Content -->
+    <div class="content" id="content">
+        <div class="question" id="question">Will you be my Valentine? 💝</div>
+
+        <div class="buttons" id="buttons">
+            <button class="button yes-button" id="yesButton">YESSS 😍</button>
+            <button class="button no-button" id="noButton">Nooo 🙈</button>
+        </div>
+
+        <div class="message" id="message">
+            Yayyy! You just made my heart very happy 💖
+        </div>
+    </div>
+
+    <!-- Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        const yesButton = document.getElementById('yesButton');
+        const noButton = document.getElementById('noButton');
+        const question = document.getElementById('question');
+        const buttons = document.getElementById('buttons');
+        const message = document.getElementById('message');
+        const content = document.getElementById('content');
+
+        yesButton.addEventListener('click', () => {
+            question.style.display = "none";
+            buttons.style.display = "none";
+            message.style.display = "block";
+
+            confetti({
+                particleCount: 150,
+                spread: 90,
+                origin: { y: 0.6 }
+            });
+
+            setTimeout(() => {
+                content.classList.add('fade-out');
+            }, 1200);
+
+            setTimeout(() => {
+                window.location.href = "questions.html";
+            }, 2000);
+        });
+
+        noButton.addEventListener('mouseover', () => {
+            const x = Math.random() * 120 - 60;
+            const y = Math.random() * 120 - 60;
+            noButton.style.transform = `translate(${x}px, ${y}px)`;
+        });
+    </script>
+
+</body>
+</html>

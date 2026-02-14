@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romantic Teaser</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            animation: float 10s linear infinite;
+            opacity: 0.7;
+        }
+
+        .heart:nth-child(odd) {
+            color: #ff69b4; /* Soft pink */
+            text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4;
+        }
+
+        .heart:nth-child(even) {
+            color: #87ceeb; /* Soft blue */
+            text-shadow: 0 0 10px #87ceeb, 0 0 20px #87ceeb;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .content {
+            text-align: center;
+            z-index: 1;
+            animation: fadeIn 3s ease-in-out;
+        }
+
+        .message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            line-height: 1.5;
+            margin-bottom: 2rem;
+        }
+
+        .button {
+            background: linear-gradient(45deg, #ff69b4, #87ceeb);
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.5rem;
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+        }
+
+        .button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.8);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Hearts -->
+    <div class="heart" style="left: 10%; animation-delay: 0s;">❤️</div>
+    <div class="heart" style="left: 20%; animation-delay: 1s;">💙</div>
+    <div class="heart" style="left: 30%; animation-delay: 2s;">❤️</div>
+    <div class="heart" style="left: 40%; animation-delay: 3s;">💙</div>
+    <div class="heart" style="left: 50%; animation-delay: 4s;">❤️</div>
+    <div class="heart" style="left: 60%; animation-delay: 5s;">💙</div>
+    <div class="heart" style="left: 70%; animation-delay: 6s;">❤️</div>
+    <div class="heart" style="left: 80%; animation-delay: 7s;">💙</div>
+    <div class="heart" style="left: 90%; animation-delay: 8s;">❤️</div>
+    <div class="heart" style="left: 15%; animation-delay: 9s;">💙</div>
+    <div class="heart" style="left: 25%; animation-delay: 10s;">❤️</div>
+    <div class="heart" style="left: 35%; animation-delay: 11s;">💙</div>
+    <div class="heart" style="left: 45%; animation-delay: 12s;">❤️</div>
+    <div class="heart" style="left: 55%; animation-delay: 13s;">💙</div>
+    <div class="heart" style="left: 65%; animation-delay: 14s;">❤️</div>
+    <div class="heart" style="left: 75%; animation-delay: 15s;">💙</div>
+    <div class="heart" style="left: 85%; animation-delay: 16s;">❤️</div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="message">
+            Hey Shamon…<br>
+            I made something special for you 💙<br>
+            Ready for a small surprise? 🐻✨
+        </div>
+        <button class="button" id="letsGoButton">Let’s Go 😍</button>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bgMusic" autoplay loop volume="0.1">
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+        <!-- Placeholder: Replace with a soft romantic music URL, e.g., a free royalty-free track from sites like freesound.org or YouTube audio library -->
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // Set volume to low
+        document.getElementById('bgMusic').volume = 0.1;
+
+        // Button click to redirect
+        document.getElementById('letsGoButton').addEventListener('click', function() {
+            window.location.href = 'page2.html';
+        });
+    </script>
+</body>
+</html>

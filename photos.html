@@ -1,0 +1,199 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Memories 💕</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    text-align: center;
+}
+
+h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.6rem;
+    margin-top: 25px;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: #ffb6c1;
+    margin-bottom: 20px;
+}
+
+/* Responsive Gallery */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 15px;
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+}
+
+.photo {
+    width: 100%;
+    border-radius: 15px;
+    cursor: pointer;
+    filter: blur(2px) brightness(0.7);
+    transition: transform 0.4s ease, filter 0.4s ease;
+    animation: fadeIn 1s ease forwards;
+}
+
+.photo:hover {
+    filter: blur(0) brightness(1);
+    transform: scale(1.07);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Lightbox */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.4s;
+    z-index: 100;
+}
+
+.lightbox.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 20px;
+    box-shadow: 0 0 35px rgba(255,105,180,0.8);
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: pink;
+}
+
+/* Secret Message */
+.secret {
+    display: none;
+    margin-top: 20px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    color: #ff69b4;
+    animation: fadeIn 2s ease;
+}
+
+/* Continue Button */
+.continue-btn {
+    margin: 30px auto 40px;
+    background: linear-gradient(45deg,#ff69b4,#ff1493);
+    border: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.3rem;
+    color: #fff;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 0 25px rgba(255,105,180,0.6);
+    transition: 0.3s;
+}
+
+.continue-btn:hover {
+    transform: scale(1.1);
+}
+</style>
+</head>
+
+<body>
+
+<h1>The Best Parts of Us 💖</h1>
+<div class="subtitle">Every picture holds a piece of my heart 🥹</div>
+
+<div class="gallery">
+  <img src="photo1.jpeg" class="photo">
+  <img src="photo2.jpeg" class="photo">
+  <img src="photo3.jpeg" class="photo">
+  <img src="photo4.jpeg" class="photo">
+  <img src="photo5.jpeg" class="photo">
+  <img src="photo6.jpeg" class="photo">
+  <img src="photo7.jpeg" class="photo">
+  <img src="photo8.jpeg" class="photo">
+  <img src="photo9.jpeg" class="photo">
+  <img src="photo10.jpeg" class="photo">
+  <img src="photo11.jpeg" class="photo">
+  <img src="photo12.jpeg" class="photo">
+  <img src="photo13.jpeg" class="photo">
+  <img src="photo14.jpeg" class="photo">
+  <img src="photo15.jpeg" class="photo">
+  <img src="photo16.jpeg" class="photo">
+  <img src="photo17.jpeg" class="photo">
+</div>
+
+<div class="secret" id="secretMsg">
+“Every photo is a reminder that I’m happiest with you 💕”
+</div>
+
+<button class="continue-btn" onclick="goNext()">Continue 💝</button>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+    <span class="close" id="close">✕ Close</span>
+    <img id="lightbox-img">
+</div>
+
+<script>
+const photos = document.querySelectorAll(".photo");
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+
+photos.forEach(photo => {
+    photo.addEventListener("click", () => {
+        lightboxImg.src = photo.src;
+        lightbox.classList.add("show");
+    });
+});
+
+document.getElementById("close").onclick = () => {
+    lightbox.classList.remove("show");
+};
+
+lightbox.onclick = e => {
+    if (e.target !== lightboxImg) {
+        lightbox.classList.remove("show");
+    }
+};
+
+// Secret message after 10 seconds
+setTimeout(() => {
+    document.getElementById("secretMsg").style.display = "block";
+}, 10000);
+
+// Next page
+function goNext() {
+    window.location.href = "video.html"; // Change if you have another next page
+}
+</script>
+
+</body>
+</html>
+
+
